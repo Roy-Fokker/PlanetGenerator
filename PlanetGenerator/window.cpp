@@ -35,8 +35,7 @@ window::window(std::wstring_view window_title, const size & window_size, const s
 	window_impl->CenterWindow();
 }
 
-window::~window()
-{}
+window::~window() = default;
 
 void window::on_message(message_name msg, const callback_method & callback)
 {
@@ -79,7 +78,7 @@ void window::change_style(style window_style)
 		clear_style_ex = WS_EX_OVERLAPPEDWINDOW | WS_EX_LAYERED | WS_EX_COMPOSITED;
 
 	DWORD new_style{},
-		new_style_ex{};
+		  new_style_ex{};
 	switch (window_style)
 	{
 	case style::normal:

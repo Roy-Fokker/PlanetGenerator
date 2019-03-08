@@ -1,20 +1,18 @@
 #pragma once
 
-
-#include "window.h"
-
 #include <cstdint>
 #include <memory>
-
 
 namespace planet_generator
 {
 	class window;
+	class renderer;
 
 	class application
 	{
 	public:
 		application();
+		~application();
 
 		int run();
 
@@ -25,6 +23,6 @@ namespace planet_generator
 	private:
 		bool exit_application = false;
 		std::unique_ptr<window> app_window = nullptr;
-		//std::unique_ptr<graphics_renderer> gfx_renderer = nullptr;
+		std::unique_ptr<renderer> gfx_renderer = nullptr;
 	};
 }

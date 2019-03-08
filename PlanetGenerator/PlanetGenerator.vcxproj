@@ -70,12 +70,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="direct3d.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="mesh.cpp" />
+    <ClCompile Include="pipeline_state.cpp" />
     <ClCompile Include="PlanetGenerator.cpp" />
+    <ClCompile Include="renderer.cpp" />
+    <ClCompile Include="render_target.cpp" />
     <ClCompile Include="window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="direct3d.h" />
+    <ClInclude Include="mesh.h" />
+    <ClInclude Include="pipeline_state.h" />
     <ClInclude Include="PlanetGenerator.h" />
+    <ClInclude Include="renderer.h" />
+    <ClInclude Include="render_target.h" />
     <ClInclude Include="window.h" />
   </ItemGroup>
   <ItemGroup>

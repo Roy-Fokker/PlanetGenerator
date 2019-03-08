@@ -36,7 +36,7 @@ struct window::window_implementation : public CWindowImpl<window::window_impleme
 
 	LRESULT on_wnd_paint(UINT msg, WPARAM wParam, LPARAM lParam, BOOL &bHandled)
 	{
-		PAINTSTRUCT ps{ 0 };
+		PAINTSTRUCT ps{};
 		HDC hdc = BeginPaint(&ps);
 		EndPaint(&ps);
 
