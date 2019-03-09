@@ -55,7 +55,7 @@ namespace planet_generator
 		enum class input_layout_mode
 		{
 			position,
-				position_texcoord
+			//position_texcoord
 		};
 
 		struct description

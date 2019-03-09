@@ -1,5 +1,6 @@
 #pragma once
 
+#include <type_traits>
 #include <Windows.h>
 #include <winrt/base.h>
 #include <d3d11_1.h>
@@ -9,6 +10,9 @@ namespace planet_generator
 {
 	class direct3d
 	{
+		// required for if constexpr to be cross compileable
+		template <typename...> constexpr static std::false_type always_false{};
+
 	public:
 		using device_t = winrt::com_ptr<ID3D11Device>;
 		using swap_chain_t = winrt::com_ptr<IDXGISwapChain>;
@@ -26,23 +30,23 @@ namespace planet_generator
 		void present(bool vSync = false);
 
 		template<typename T>
-		T as() const
+		T get() const
 		{
-			if constexpr (std::is_same<T, device_t>())
+			if constexpr (std::is_same_v<T, device_t>)
 			{
 				return device;
 			}
-			else if constexpr (std::is_same<T, swap_chain_t>())
+			else if constexpr (std::is_same_v<T, swap_chain_t>)
 			{
 				return swap_chain;
 			}
-			else if constexpr (std::is_same<T, context_t>())
+			else if constexpr (std::is_same_v<T, context_t>)
 			{
 				return context;
 			}
 			else
 			{
-				static_assert(false, "Must be one of [device_t, swap_chain_t, context_t]");
+				static_assert(always_false<T>, "Must be one of [device_t, swap_chain_t, context_t]");
 			}
 		};
 

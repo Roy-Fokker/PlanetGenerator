@@ -72,7 +72,7 @@
   <ItemGroup>
     <ClCompile Include="direct3d.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="mesh.cpp" />
+    <ClCompile Include="mesh_buffer.cpp" />
     <ClCompile Include="pipeline_state.cpp" />
     <ClCompile Include="PlanetGenerator.cpp" />
     <ClCompile Include="renderer.cpp" />
@@ -81,7 +81,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="direct3d.h" />
-    <ClInclude Include="mesh.h" />
+    <ClInclude Include="mesh_buffer.h" />
     <ClInclude Include="pipeline_state.h" />
     <ClInclude Include="PlanetGenerator.h" />
     <ClInclude Include="renderer.h" />
@@ -90,6 +90,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="window_implementation.inl" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="green.ps.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="position.vs.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+    </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

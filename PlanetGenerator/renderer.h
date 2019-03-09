@@ -8,8 +8,8 @@ namespace planet_generator
 {
 	class direct3d;
 	class render_target;
-	class pipeline;
-	class mesh;
+	class pipeline_state;
+	class mesh_buffer;
 
 	class renderer
 	{
@@ -25,7 +25,7 @@ namespace planet_generator
 		std::unique_ptr<direct3d> d3d = nullptr;
 		std::unique_ptr<render_target> draw_target = nullptr;
 
-		std::unique_ptr<pipeline> temp_pipeline = nullptr;
-		std::unique_ptr<mesh> temp_mesh = nullptr;
+		std::unique_ptr<pipeline_state> temp_pipeline = nullptr;
+		std::unique_ptr<mesh_buffer> temp_mesh = nullptr;
 	};
 }

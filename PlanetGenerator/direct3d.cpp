@@ -16,7 +16,7 @@ namespace
 {
 	constexpr DXGI_FORMAT swap_chain_format = DXGI_FORMAT_R8G8B8A8_UNORM;
 	constexpr uint16_t msaa_quality_level = 4U;
-	constexpr uint32_t max_anisotropy = 16U;
+	//constexpr uint32_t max_anisotropy = 16U;
 
 	const std::array<uint16_t, 2> get_window_size(HWND window_handle)
 	{
