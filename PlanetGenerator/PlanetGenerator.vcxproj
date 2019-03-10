@@ -70,6 +70,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="constant_buffer.cpp" />
     <ClCompile Include="direct3d.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mesh_buffer.cpp" />
@@ -80,6 +81,7 @@
     <ClCompile Include="window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="constant_buffer.h" />
     <ClInclude Include="direct3d.h" />
     <ClInclude Include="mesh_buffer.h" />
     <ClInclude Include="pipeline_state.h" />

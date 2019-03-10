@@ -6,6 +6,8 @@
 
 namespace planet_generator
 {
+	struct pipeline_description;
+
 	class pipeline_state
 	{
 	public:
@@ -58,18 +60,7 @@ namespace planet_generator
 			//position_texcoord
 		};
 
-		struct description
-		{
-			blend_mode blend;
-			depth_stencil_mode depth_stencil;
-			rasterizer_mode rasterizer;
-			sampler_mode sampler;
-
-			D3D11_PRIMITIVE_TOPOLOGY primitive_topology;
-			input_layout_mode input_layout;
-			const std::vector<byte> &vertex_shader_file;
-			const std::vector<byte> &pixel_shader_file;
-		};
+		using description = pipeline_description;
 
 	public:
 		pipeline_state() = delete;
@@ -98,6 +89,19 @@ namespace planet_generator
 		input_layout_t input_layout;
 		vertex_shader_t vertex_shader;
 		pixel_shader_t pixel_shader;
+	};
+
+	struct pipeline_description
+	{
+		pipeline_state::blend_mode blend;
+		pipeline_state::depth_stencil_mode depth_stencil;
+		pipeline_state::rasterizer_mode rasterizer;
+		pipeline_state::sampler_mode sampler;
+
+		D3D11_PRIMITIVE_TOPOLOGY primitive_topology;
+		pipeline_state::input_layout_mode input_layout;
+		const std::vector<byte> &vertex_shader_file;
+		const std::vector<byte> &pixel_shader_file;
 	};
 }
 

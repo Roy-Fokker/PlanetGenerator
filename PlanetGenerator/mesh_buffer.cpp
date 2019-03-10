@@ -8,6 +8,12 @@ mesh_buffer::mesh_buffer(direct3d::device_t device, const std::vector<vertex>& v
 	make_buffer(device, indicies);
 }
 
+mesh_buffer::mesh_buffer(direct3d::device_t device, const mesh & mesh)
+{
+	make_buffer(device, mesh.verticies);
+	make_buffer(device, mesh.indicies);
+}
+
 mesh_buffer::~mesh_buffer() = default;
 
 void mesh_buffer::activate(direct3d::context_t context)
@@ -29,6 +35,12 @@ void mesh_buffer::draw(direct3d::context_t context)
 	context->DrawIndexed(index_count,
 						 0,
 						 0);
+}
+
+void mesh_buffer::activate_and_draw(direct3d::context_t context)
+{
+	activate(context);
+	draw(context);
 }
 
 void mesh_buffer::make_buffer(direct3d::device_t device, const std::vector<vertex>& vertices)
