@@ -6,6 +6,7 @@
 
 #include <vector>
 #include <fstream>
+#include <DirectXMath.h>
 
 using namespace planet_generator;
 
@@ -64,6 +65,11 @@ namespace
 
 		return buffer;
 	}
+}
+
+namespace
+{
+	constexpr uint16_t shader_transform_slot = 0;
 }
 
 
@@ -144,10 +150,15 @@ void application::setup()
 			pipeline_state::input_layout_mode::position,
 			vso,
 			pso });
+
+	auto tdata = DirectX::XMMatrixTranslation(0.5f, 0.5f, 0.0f);
+	transform_id = gfx_renderer->add_transform(transforms{ DirectX::XMMatrixTranspose(tdata) },
+											   shader_transform_slot);
 }
 
 void application::update()
 {
 	gfx_renderer->add_to_draw_queue(pipeline_id);
+	gfx_renderer->add_to_draw_queue(transform_id);
 	gfx_renderer->add_to_draw_queue(mesh_id);
 }

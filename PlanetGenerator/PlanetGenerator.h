@@ -31,5 +31,6 @@ namespace planet_generator
 
 		renderer::handle mesh_id{};
 		renderer::handle pipeline_id{};
+		renderer::handle transform_id{};
 	};
 }
