@@ -70,19 +70,7 @@ void renderer::draw_frame()
 		auto [obj_type, id] = draw_queue.front();
 		draw_queue.pop();
 
-		id--;
-		switch (obj_type)
-		{
-		case object_type::mesh:
-			meshes.at(id)->activate_and_draw(context);
-			break;
-		case object_type::pipeline:
-			pipeline_states.at(id)->activate(context);
-			break;
-		case object_type::transform:
-			constant_buffers.at(id)->activate(context);
-			break;
-		}
+		activate(context, obj_type, --id);
 	}
 
 	d3d->present();
@@ -97,4 +85,20 @@ void renderer::resize_frame()
 	draw_target = std::make_unique<render_target>(d3d->get<direct3d::device_t>(),
 												  d3d->get<direct3d::swap_chain_t>());
 	draw_target->activate(d3d->get<direct3d::context_t>());
+}
+
+void planet_generator::renderer::activate(winrt::com_ptr<ID3D11DeviceContext>& context, object_type obj_type, const uint32_t &id)
+{
+	switch (obj_type)
+	{
+	case object_type::mesh:
+		meshes.at(id)->activate_and_draw(context);
+		break;
+	case object_type::pipeline:
+		pipeline_states.at(id)->activate(context);
+		break;
+	case object_type::transform:
+		constant_buffers.at(id)->activate(context);
+		break;
+	}
 }

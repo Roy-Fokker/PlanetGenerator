@@ -59,6 +59,9 @@ namespace planet_generator
 		void resize_frame();
 
 	private:
+		void activate(winrt::com_ptr<ID3D11DeviceContext> &context, object_type obj_type, const uint32_t &id);
+
+	private:
 		std::unique_ptr<direct3d> d3d = nullptr;
 		std::unique_ptr<render_target> draw_target = nullptr;
 
