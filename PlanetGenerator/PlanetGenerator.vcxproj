@@ -70,6 +70,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="camera.cpp" />
     <ClCompile Include="constant_buffer.cpp" />
     <ClCompile Include="direct3d.cpp" />
     <ClCompile Include="main.cpp" />
@@ -81,6 +82,7 @@
     <ClCompile Include="window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="camera.h" />
     <ClInclude Include="constant_buffer.h" />
     <ClInclude Include="direct3d.h" />
     <ClInclude Include="mesh_buffer.h" />

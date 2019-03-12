@@ -3,6 +3,7 @@
 #include "window.h"
 #include "mesh_buffer.h"
 #include "pipeline_state.h"
+#include "camera.h"
 
 #include <vector>
 #include <fstream>
@@ -69,7 +70,9 @@ namespace
 
 namespace
 {
-	constexpr uint16_t shader_transform_slot = 0;
+	constexpr uint16_t shader_projection_slot = 0;
+	constexpr uint16_t shader_view_slot = 1;
+	constexpr uint16_t shader_transform_slot = 2;
 }
 
 
@@ -94,6 +97,11 @@ application::application()
 	});
 
 	gfx_renderer = std::make_unique<renderer>(app_window->handle());
+
+	using DirectX::XMFLOAT3;
+	camera_view = std::make_unique<camera>(XMFLOAT3{ 0.0f, 0.0f, -1.0f },
+										   XMFLOAT3{ 0.0f, 0.0f, 0.0f },
+										   XMFLOAT3{ 0.0f, 1.0f, 0.0f });
 }
 
 application::~application() = default;
@@ -134,30 +142,54 @@ bool application::resize_callback(uintptr_t wParam, uintptr_t lParam)
 
 void application::setup()
 {
-	mesh_id = gfx_renderer->add_mesh(get_triangle_mesh(1.0f, 1.0f, 0.0f));
+	{ // Pipeline State setup
+		auto vso = read_binary_file(L"position.vs.cso"),
+			pso = read_binary_file(L"green.ps.cso");
 
-	auto vso = read_binary_file(L"position.vs.cso"),
-	     pso = read_binary_file(L"green.ps.cso");
+		pipeline_id = gfx_renderer->add_pipeline_state(
+			pipeline_description{
+				pipeline_state::blend_mode::Opaque,
+				pipeline_state::depth_stencil_mode::ReadWrite,
+				pipeline_state::rasterizer_mode::CullAntiClockwise,
+				pipeline_state::sampler_mode::AnisotropicClamp,
 
-	pipeline_id = gfx_renderer->add_pipeline_state(
-		pipeline_description{
-			pipeline_state::blend_mode::Opaque,
-			pipeline_state::depth_stencil_mode::ReadWrite,
-			pipeline_state::rasterizer_mode::CullAntiClockwise,
-			pipeline_state::sampler_mode::AnisotropicClamp,
-			
-			D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST,
-			pipeline_state::input_layout_mode::position,
-			vso,
-			pso });
+				D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST,
+				pipeline_state::input_layout_mode::position,
+				vso,
+				pso });
+	}
 
-	auto tdata = DirectX::XMMatrixTranslation(0.5f, 0.5f, 0.0f);
-	transform_id = gfx_renderer->add_transform(transforms{ DirectX::XMMatrixTranspose(tdata) },
-											   shader_transform_slot);
+	{ // Mesh setup
+		mesh_id = gfx_renderer->add_mesh(get_triangle_mesh(1.0f, 1.0f, 0.0f));
+	}
+
+	{ // Mesh transform setup
+		auto tdata = DirectX::XMMatrixTranslation(0.0f, 0.0f, 0.0f);
+		transform_id = gfx_renderer->add_transform(transforms{ DirectX::XMMatrixTranspose(tdata) },
+												   shader_transform_slot);
+	}
+
+	{ // Projection Matrix setup
+		RECT rect{};
+		GetClientRect(app_window->handle(), &rect);
+		auto width = static_cast<uint16_t>(rect.right - rect.left);
+		auto height = static_cast<uint16_t>(rect.bottom - rect.top);
+		auto tdata = projection(width, height, 45.0f, 0.1f, 1000.0f);
+		projection_id = gfx_renderer->add_transform(transforms{ DirectX::XMMatrixTranspose(tdata) },
+													shader_projection_slot);
+	}
+
+	{ // View Matrix Setup
+		auto tdata = camera_view->view();
+		view_id = gfx_renderer->add_transform(transforms{ DirectX::XMMatrixTranspose(tdata) },
+											  shader_view_slot);
+	}
 }
 
 void application::update()
 {
+	gfx_renderer->add_to_draw_queue(view_id);
+	gfx_renderer->add_to_draw_queue(projection_id);
 	gfx_renderer->add_to_draw_queue(pipeline_id);
 	gfx_renderer->add_to_draw_queue(transform_id);
 	gfx_renderer->add_to_draw_queue(mesh_id);

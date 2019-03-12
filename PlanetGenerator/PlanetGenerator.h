@@ -8,6 +8,7 @@ namespace planet_generator
 {
 	class window;
 	class renderer;
+	class camera;
 
 	class application
 	{
@@ -28,9 +29,12 @@ namespace planet_generator
 		bool exit_application = false;
 		std::unique_ptr<window> app_window = nullptr;
 		std::unique_ptr<renderer> gfx_renderer = nullptr;
+		std::unique_ptr<camera> camera_view = nullptr;
 
 		renderer::handle mesh_id{};
 		renderer::handle pipeline_id{};
 		renderer::handle transform_id{};
+		renderer::handle projection_id{};
+		renderer::handle view_id{};
 	};
 }
