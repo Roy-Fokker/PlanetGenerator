@@ -25,9 +25,9 @@ namespace
 		return {
 			// Vertex List
 			{
-				{ { x1, y1, +0.5f } },
-				{ { x3, y3, +0.5f } },
-				{ { x2, y2, +0.5f } },
+				{ { x1, y1, +0.f } },
+				{ { x3, y3, +0.f } },
+				{ { x2, y2, +0.f } },
 			},
 
 			// Index List
@@ -130,6 +130,42 @@ bool application::keypress_callback(uintptr_t key_code, uintptr_t extension)
 	case VK_ESCAPE:
 		exit_application = true;
 		break;
+	case 'W':
+		camera_view->translate(0.05f, 0.f, 0.f);
+		break;
+	case 'S':
+		camera_view->translate(-0.05f, 0.f, 0.f);
+		break;
+	case 'A':
+		camera_view->translate(0.f, 0.05f, 0.f);
+		break;
+	case 'D':
+		camera_view->translate(0.f, -0.05f, 0.f);
+		break;
+	case 'Q':
+		camera_view->translate(0.f, 0.f, 0.05f);
+		break;
+	case 'E':
+		camera_view->translate(0.f, 0.f, -0.05f);
+		break;
+	case 'I':
+		camera_view->rotate(0.05f, 0.f, 0.f);
+		break;
+	case 'K':
+		camera_view->rotate(-0.05f, 0.f, 0.f);
+		break;
+	case 'J':
+		camera_view->rotate(0.f, 0.05f, 0.f);
+		break;
+	case 'L':
+		camera_view->rotate(0.f, -0.05f, 0.f);
+		break;
+	case 'U':
+		camera_view->rotate(0.f, 0.f, 0.05f);
+		break;
+	case 'O':
+		camera_view->rotate(0.f, 0.f, -0.05f);
+		break;
 	}
 	return true;
 }
@@ -174,12 +210,15 @@ void application::setup()
 		GetClientRect(app_window->handle(), &rect);
 		auto width = static_cast<uint16_t>(rect.right - rect.left);
 		auto height = static_cast<uint16_t>(rect.bottom - rect.top);
-		auto tdata = projection(width, height, 45.0f, 0.1f, 1000.0f);
+		auto tdata = projection(width, height, 60.0f, 0.1f, 1000.0f);
 		projection_id = gfx_renderer->add_transform(transforms{ DirectX::XMMatrixTranspose(tdata) },
 													shader_projection_slot);
 	}
 
 	{ // View Matrix Setup
+		camera_view->look_at(DirectX::XMFLOAT3{ 0.0f, 0.0f, -2.0f },
+							  DirectX::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
+							  DirectX::XMFLOAT3{ 0.0f, 1.0f, 0.0f });
 		auto tdata = camera_view->view();
 		view_id = gfx_renderer->add_transform(transforms{ DirectX::XMMatrixTranspose(tdata) },
 											  shader_view_slot);
@@ -188,6 +227,11 @@ void application::setup()
 
 void application::update()
 {
+	{
+		auto tdata = camera_view->view();
+		gfx_renderer->update_transform(view_id, transforms{ DirectX::XMMatrixTranspose(tdata) });
+	}
+
 	gfx_renderer->add_to_draw_queue(view_id);
 	gfx_renderer->add_to_draw_queue(projection_id);
 	gfx_renderer->add_to_draw_queue(pipeline_id);

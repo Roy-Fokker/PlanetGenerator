@@ -51,7 +51,7 @@ namespace planet_generator
 		handle add_pipeline_state(const pipeline_description &description);
 		[[nodiscard]]
 		handle add_transform(const transforms &transform, uint16_t slot);
-		void update_transform(uint32_t id, const transforms &transform);
+		void update_transform(handle id, const transforms &transform);
 
 		void add_to_draw_queue(handle handle_);
 

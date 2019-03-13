@@ -50,9 +50,12 @@ renderer::handle renderer::add_transform(const transforms & transform, uint16_t 
 	return { object_type::transform, static_cast<uint32_t>(constant_buffers.size()) };
 }
 
-void renderer::update_transform(uint32_t id, const transforms & transform)
+void renderer::update_transform(renderer::handle id, const transforms & transform)
 {
-	constant_buffers.at(id)->update(d3d->get<direct3d::context_t>(), transform);
+	if (id.type != object_type::transform) 
+		return;
+
+	constant_buffers.at(--id.id)->update(d3d->get<direct3d::context_t>(), transform);
 }
 
 void renderer::add_to_draw_queue(handle handle_)

@@ -3,30 +3,64 @@
 using namespace DirectX;
 using namespace planet_generator;
 
-camera::camera(const XMFLOAT3 & pos, const XMFLOAT3 & tgt, const XMFLOAT3 & up_vec)
+namespace
 {
-	look_at(pos, tgt, up_vec);
+	static XMVECTOR forward_vec = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
+	static XMVECTOR left_vec = XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f);
+	static XMVECTOR up_vec = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
+
+	XMVECTOR rotate_vector(XMVECTOR &q, XMVECTOR &v)
+	{
+		auto vec = XMVectorSetW(v, 1.0f);
+		auto conjugate = XMQuaternionConjugate(q);
+
+		vec = XMQuaternionMultiply(q, vec);
+		vec = XMQuaternionMultiply(vec, conjugate);
+
+		return XMVector3Normalize(vec);
+	}
+}
+
+camera::camera(const XMFLOAT3 & pos, const XMFLOAT3 & tgt, const XMFLOAT3 & up)
+{
+	look_at(pos, tgt, up);
 }
 
 camera::~camera() = default;
 
 void camera::translate(float dolly, float pan, float crane)
 {
-	
+	auto forward = rotate_vector(orientation, forward_vec);
+	auto left = rotate_vector(orientation, left_vec);
+	auto up = rotate_vector(orientation, up_vec);
 
-	
+	//          Forward             Left           Up
+	position = (forward * dolly) 
+	         + (left * pan) 
+	         + (up * crane) 
+	         + position;
 }
 
 void camera::rotate(float yaw, float pitch, float roll)
 {
+	auto forward = rotate_vector(orientation, forward_vec);
+	auto left = rotate_vector(orientation, left_vec);
+	auto up = rotate_vector(orientation, up_vec);
 
+	auto rot_x = XMQuaternionRotationAxis(left, pitch);
+	auto rot_y = XMQuaternionRotationAxis(up, yaw);
+	auto rot_z = XMQuaternionRotationAxis(forward, roll);
+
+	orientation = XMQuaternionMultiply(rot_x, orientation);
+	orientation = XMQuaternionMultiply(rot_y, orientation);
+	orientation = XMQuaternionMultiply(rot_z, orientation);
 }
 
-void camera::look_at(const XMFLOAT3 & pos, const XMFLOAT3 & tgt_, const XMFLOAT3 & up_vec)
+void camera::look_at(const XMFLOAT3 & pos, const XMFLOAT3 & tgt_, const XMFLOAT3 & up_)
 {
 	position = XMLoadFloat3(&pos);
 	auto target = XMLoadFloat3(&tgt_),
-		up = XMLoadFloat3(&up_vec);
+		up = XMLoadFloat3(&up_);
 
 	auto view_matrix = XMMatrixLookAtLH(position, target, up);
 	orientation = XMQuaternionRotationMatrix(view_matrix);
