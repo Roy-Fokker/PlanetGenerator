@@ -6,6 +6,8 @@
 #include "constant_buffer.h"
 #include "camera.h"
 
+#include "planet.h"
+
 #include <vector>
 #include <fstream>
 #include <DirectXMath.h>
@@ -178,7 +180,7 @@ void application::setup()
 			pipeline_description{
 				pipeline_state::blend_mode::Opaque,
 				pipeline_state::depth_stencil_mode::ReadWrite,
-				pipeline_state::rasterizer_mode::CullAntiClockwise,
+				pipeline_state::rasterizer_mode::Wireframe,
 				pipeline_state::sampler_mode::AnisotropicClamp,
 
 				D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST,
@@ -188,11 +190,15 @@ void application::setup()
 	}
 
 	{ // Mesh setup
-		mesh_id = gfx_renderer->add_mesh(get_triangle_mesh(1.0f, 1.0f, 0.0f));
+		auto planet = generate_sphere(1.0f, 4);
+
+		mesh_id = gfx_renderer->add_mesh(planet);
 	}
 
 	{ // Mesh transform setup
+		auto angle = DirectX::XMConvertToRadians(45.0f);
 		auto tdata = DirectX::XMMatrixTranslation(0.0f, 0.0f, 0.0f);
+		tdata *= DirectX::XMMatrixRotationRollPitchYaw(angle, 0.0f, angle);
 		transform_id = gfx_renderer->add_transform(transforms{ DirectX::XMMatrixTranspose(tdata) },
 												   shader_slot::transform);
 	}

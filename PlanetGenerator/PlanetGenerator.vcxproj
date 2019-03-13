@@ -76,6 +76,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mesh_buffer.cpp" />
     <ClCompile Include="pipeline_state.cpp" />
+    <ClCompile Include="planet.cpp" />
     <ClCompile Include="PlanetGenerator.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="render_target.cpp" />
@@ -87,6 +88,7 @@
     <ClInclude Include="direct3d.h" />
     <ClInclude Include="mesh_buffer.h" />
     <ClInclude Include="pipeline_state.h" />
+    <ClInclude Include="planet.h" />
     <ClInclude Include="PlanetGenerator.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="render_target.h" />
