@@ -33,7 +33,7 @@ renderer::handle renderer::add_mesh(const mesh & mesh_data)
 	return { object_type::mesh, static_cast<uint32_t>(meshes.size()) };
 }
 
-renderer::handle renderer::add_pipeline_state(const pipeline_description & description)
+renderer::handle renderer::add_pipeline_state(const pipeline_description &description)
 {
 	pipeline_states.push_back(std::make_unique<pipeline_state>(d3d->get<direct3d::device_t>(),
 															   description));
@@ -41,7 +41,7 @@ renderer::handle renderer::add_pipeline_state(const pipeline_description & descr
 	return { object_type::pipeline, static_cast<uint32_t>(pipeline_states.size()) };;
 }
 
-renderer::handle renderer::add_transform(const transforms & transform, uint16_t slot)
+renderer::handle renderer::add_transform(const transforms &transform, shader_slot slot)
 {
 	constant_buffers.push_back(std::make_unique<constant_buffer>(d3d->get<direct3d::device_t>(),
 																transform,
@@ -50,12 +50,13 @@ renderer::handle renderer::add_transform(const transforms & transform, uint16_t 
 	return { object_type::transform, static_cast<uint32_t>(constant_buffers.size()) };
 }
 
-void renderer::update_transform(renderer::handle id, const transforms & transform)
+void renderer::update_transform(const renderer::handle &id, const transforms & transform)
 {
 	if (id.type != object_type::transform) 
 		return;
 
-	constant_buffers.at(--id.id)->update(d3d->get<direct3d::context_t>(), transform);
+	auto r_id = id.id - 1;
+	constant_buffers.at(r_id)->update(d3d->get<direct3d::context_t>(), transform);
 }
 
 void renderer::add_to_draw_queue(handle handle_)

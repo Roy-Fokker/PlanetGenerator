@@ -3,6 +3,7 @@
 #include "window.h"
 #include "mesh_buffer.h"
 #include "pipeline_state.h"
+#include "constant_buffer.h"
 #include "camera.h"
 
 #include <vector>
@@ -68,13 +69,6 @@ namespace
 	}
 }
 
-namespace
-{
-	constexpr uint16_t shader_projection_slot = 0;
-	constexpr uint16_t shader_view_slot = 1;
-	constexpr uint16_t shader_transform_slot = 2;
-}
-
 
 application::application()
 {
@@ -99,9 +93,7 @@ application::application()
 	gfx_renderer = std::make_unique<renderer>(app_window->handle());
 
 	using DirectX::XMFLOAT3;
-	camera_view = std::make_unique<camera>(XMFLOAT3{ 0.0f, 0.0f, -1.0f },
-										   XMFLOAT3{ 0.0f, 0.0f, 0.0f },
-										   XMFLOAT3{ 0.0f, 1.0f, 0.0f });
+	camera_view = std::make_unique<camera>();
 }
 
 application::~application() = default;
@@ -148,16 +140,16 @@ bool application::keypress_callback(uintptr_t key_code, uintptr_t extension)
 	case 'E':
 		camera_view->translate(0.f, 0.f, -0.05f);
 		break;
-	case 'I':
+	case 'J':
 		camera_view->rotate(0.05f, 0.f, 0.f);
 		break;
-	case 'K':
+	case 'L':
 		camera_view->rotate(-0.05f, 0.f, 0.f);
 		break;
-	case 'J':
+	case 'I':
 		camera_view->rotate(0.f, 0.05f, 0.f);
 		break;
-	case 'L':
+	case 'K':
 		camera_view->rotate(0.f, -0.05f, 0.f);
 		break;
 	case 'U':
@@ -202,7 +194,7 @@ void application::setup()
 	{ // Mesh transform setup
 		auto tdata = DirectX::XMMatrixTranslation(0.0f, 0.0f, 0.0f);
 		transform_id = gfx_renderer->add_transform(transforms{ DirectX::XMMatrixTranspose(tdata) },
-												   shader_transform_slot);
+												   shader_slot::transform);
 	}
 
 	{ // Projection Matrix setup
@@ -212,7 +204,7 @@ void application::setup()
 		auto height = static_cast<uint16_t>(rect.bottom - rect.top);
 		auto tdata = projection(width, height, 60.0f, 0.1f, 1000.0f);
 		projection_id = gfx_renderer->add_transform(transforms{ DirectX::XMMatrixTranspose(tdata) },
-													shader_projection_slot);
+													shader_slot::projection);
 	}
 
 	{ // View Matrix Setup
@@ -221,7 +213,7 @@ void application::setup()
 							  DirectX::XMFLOAT3{ 0.0f, 1.0f, 0.0f });
 		auto tdata = camera_view->view();
 		view_id = gfx_renderer->add_transform(transforms{ DirectX::XMMatrixTranspose(tdata) },
-											  shader_view_slot);
+											  shader_slot::view);
 	}
 }
 

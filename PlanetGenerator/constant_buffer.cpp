@@ -3,7 +3,7 @@
 
 using namespace planet_generator;
 
-constant_buffer::constant_buffer(direct3d::device_t device, const transforms & data, uint16_t slot_) :
+constant_buffer::constant_buffer(direct3d::device_t device, const transforms & data, shader_slot slot_) :
 	slot(slot_)
 {
 	make_buffer(device, data);
@@ -16,7 +16,7 @@ void constant_buffer::activate(direct3d::context_t context)
 	// TODO: deal with other stages, for now only vertex
 
 	ID3D11Buffer * const buffers[] = { buffer.get() };
-	context->VSSetConstantBuffers(slot,
+	context->VSSetConstantBuffers(static_cast<uint32_t>(slot),
 								  1,
 								  buffers);
 }

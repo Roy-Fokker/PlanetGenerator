@@ -18,6 +18,8 @@ namespace planet_generator
 	struct mesh;
 	class constant_buffer;
 	struct transforms;
+	enum class shader_stage;
+	enum class shader_slot;
 
 	class renderer
 	{
@@ -50,8 +52,8 @@ namespace planet_generator
 		[[nodiscard]]
 		handle add_pipeline_state(const pipeline_description &description);
 		[[nodiscard]]
-		handle add_transform(const transforms &transform, uint16_t slot);
-		void update_transform(handle id, const transforms &transform);
+		handle add_transform(const transforms &transform, shader_slot slot);
+		void update_transform(const handle &id, const transforms &transform);
 
 		void add_to_draw_queue(handle handle_);
 
