@@ -191,7 +191,7 @@ void application::setup()
 
 	{ // Mesh setup
 		auto planet = generate_sphere(1.0f, 4);
-
+		layer_noise(noise_type::simplex, planet);
 		mesh_id = gfx_renderer->add_mesh(planet);
 	}
 
@@ -228,6 +228,15 @@ void application::update()
 	{
 		auto tdata = camera_view->view();
 		gfx_renderer->update_transform(view_id, transforms{ DirectX::XMMatrixTranspose(tdata) });
+	}
+
+	{
+		static float r = 0.0f;
+		auto angle = DirectX::XMConvertToRadians(r);
+		auto tdata = DirectX::XMMatrixRotationRollPitchYaw(0.0f, angle, 0.0f);
+		gfx_renderer->update_transform(transform_id, transforms{ DirectX::XMMatrixTranspose(tdata) });
+		r += 0.01f;
+		if (r > 360.0f) r = 0.0f;
 	}
 
 	gfx_renderer->add_to_draw_queue(view_id);

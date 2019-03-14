@@ -3,6 +3,8 @@
 #include <cmath>
 #include <DirectXMath.h>
 
+#include <FastNoise\FastNoise.h>
+
 using namespace DirectX;
 using namespace planet_generator;
 
@@ -168,6 +170,21 @@ mesh planet_generator::generate_sphere(float size, uint8_t subdivisions)
 	return obj;
 }
 
-void planet_generator::layer_noise(noise_type type, mesh & mesh_obj)
+void planet_generator::layer_noise(noise_type type, mesh &mesh_obj)
 {
+	FastNoise myNoise; // Create a FastNoise object
+	myNoise.SetNoiseType(FastNoise::SimplexFractal); // Set the desired noise type
+
+	for (auto &v : mesh_obj.verticies)
+	{
+		auto[x, y, z] = v.position;
+		auto value = myNoise.GetNoise(x * 100, y * 100, z * 100);
+		value = std::max(0.0f, value);
+
+		XMVECTOR p = XMLoadFloat3(&v.position);
+		XMVECTOR n = XMVector3Normalize(p);
+		p = p + (n * value * 0.25f);
+
+		XMStoreFloat3(&v.position, p);
+	}
 }
