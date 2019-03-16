@@ -6,11 +6,6 @@ using namespace planet_generator;
 namespace
 {
 	constexpr uint32_t max_anisotropy = 16U;
-
-	using element_desc = std::vector<D3D11_INPUT_ELEMENT_DESC>;
-	constexpr D3D11_INPUT_ELEMENT_DESC position = { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 };
-	constexpr D3D11_INPUT_ELEMENT_DESC normal   = { "NORMAL",   0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 };
-	constexpr D3D11_INPUT_ELEMENT_DESC texcoord = { "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT,    0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 };
 }
 
 pipeline_state::pipeline_state(direct3d::device_t device, const description & state_desc)
@@ -21,10 +16,6 @@ pipeline_state::pipeline_state(direct3d::device_t device, const description & st
 	make_sampler_state(device, state_desc.sampler);
 
 	primitive_topology = state_desc.primitive_topology;
-
-	make_input_layout(device, state_desc.input_layout, state_desc.vertex_shader_file);
-	make_vertex_shader(device, state_desc.vertex_shader_file);
-	make_pixel_shader(device, state_desc.pixel_shader_file);
 }
 
 pipeline_state::~pipeline_state() = default;
@@ -45,10 +36,6 @@ void pipeline_state::activate(direct3d::context_t context)
 
 
 	context->IASetPrimitiveTopology(primitive_topology);
-	context->IASetInputLayout(input_layout.get());
-
-	context->VSSetShader(vertex_shader.get(), nullptr, 0);
-	context->PSSetShader(pixel_shader.get(), nullptr, 0);
 }
 
 void pipeline_state::make_blend_state(direct3d::device_t device, blend_mode blend)
@@ -222,43 +209,3 @@ void pipeline_state::make_sampler_state(direct3d::device_t device, sampler_mode 
 	assert(hr == S_OK);
 }
 
-void pipeline_state::make_input_layout(direct3d::device_t device, input_layout_mode layout, const std::vector<byte>& vso)
-{
-	// TODO: Convert to a loop maybe 
-	// E.G.: const input_layout_mode[] or flags<input_layout_mode>????
-	element_desc elements;
-	switch (layout)
-	{
-	case input_layout_mode::position:
-		elements = { position };
-		break;
-	//case input_layout_mode::position_texcoord:
-	//	elements = { position, texcoord };
-	//	break;
-	}
-
-	auto hr = device->CreateInputLayout(elements.data(),
-										static_cast<uint32_t>(elements.size()),
-										vso.data(),
-										static_cast<uint32_t>(vso.size()),
-										input_layout.put());
-	assert(hr == S_OK);
-}
-
-void pipeline_state::make_vertex_shader(direct3d::device_t device, const std::vector<byte>& vso)
-{
-	auto hr = device->CreateVertexShader(vso.data(),
-										 vso.size(),
-										 NULL,
-										 vertex_shader.put());
-	assert(hr == S_OK);
-}
-
-void pipeline_state::make_pixel_shader(direct3d::device_t device, const std::vector<byte>& pso)
-{
-	auto hr = device->CreatePixelShader(pso.data(),
-										pso.size(),
-										NULL,
-										pixel_shader.put());
-	assert(hr == S_OK);
-}

@@ -31,6 +31,7 @@ namespace planet_generator
 		std::unique_ptr<renderer> gfx_renderer = nullptr;
 		std::unique_ptr<camera> camera_view = nullptr;
 
+		renderer::handle material_id{};
 		renderer::handle mesh_id{};
 		renderer::handle pipeline_id{};
 		renderer::handle transform_id{};

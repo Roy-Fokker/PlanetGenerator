@@ -14,6 +14,8 @@ namespace planet_generator
 	class render_target;
 	class pipeline_state;
 	struct pipeline_description;
+	class material;
+	struct material_description;
 	class mesh_buffer;
 	struct mesh;
 	class constant_buffer;
@@ -28,6 +30,7 @@ namespace planet_generator
 		{
 			transform,
 			pipeline,
+			material,
 			mesh
 		};
 
@@ -39,6 +42,7 @@ namespace planet_generator
 
 	private:
 		using mesh_buffer_ptr = std::unique_ptr<mesh_buffer>;
+		using material_ptr = std::unique_ptr<material>;
 		using pipeline_state_ptr = std::unique_ptr<pipeline_state>;
 		using constant_buffer_ptr = std::unique_ptr<constant_buffer>;
 		
@@ -49,6 +53,8 @@ namespace planet_generator
 		
 		[[nodiscard]]
 		handle add_mesh(const mesh &mesh_data);
+		[[nodiscard]]
+		handle add_material(const material_description &description);
 		[[nodiscard]]
 		handle add_pipeline_state(const pipeline_description &description);
 		[[nodiscard]]
@@ -69,6 +75,7 @@ namespace planet_generator
 
 		std::vector<mesh_buffer_ptr> meshes;
 		std::vector<pipeline_state_ptr> pipeline_states;
+		std::vector<material_ptr> material_list;
 		std::vector<constant_buffer_ptr> constant_buffers;
 
 		std::queue<handle> draw_queue;

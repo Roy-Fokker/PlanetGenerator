@@ -5,6 +5,7 @@
 #include "pipeline_state.h"
 #include "mesh_buffer.h"
 #include "constant_buffer.h"
+#include "material.h"
 
 using namespace planet_generator;
 
@@ -31,6 +32,14 @@ renderer::handle renderer::add_mesh(const mesh & mesh_data)
 												   mesh_data));
 
 	return { object_type::mesh, static_cast<uint32_t>(meshes.size()) };
+}
+
+renderer::handle renderer::add_material(const material_description & description)
+{
+	material_list.push_back(std::make_unique<material>(d3d->get<direct3d::device_t>(),
+													   description));
+
+	return { object_type::material, static_cast<uint32_t>(material_list.size()) };
 }
 
 renderer::handle renderer::add_pipeline_state(const pipeline_description &description)
@@ -95,6 +104,9 @@ void planet_generator::renderer::activate(winrt::com_ptr<ID3D11DeviceContext>& c
 {
 	switch (obj_type)
 	{
+	case object_type::material:
+		material_list.at(id)->activate(context);
+		break;
 	case object_type::mesh:
 		meshes.at(id)->activate_and_draw(context);
 		break;

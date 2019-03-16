@@ -16,10 +16,6 @@ namespace planet_generator
 		using rasterizer_state_t = winrt::com_ptr<ID3D11RasterizerState>;
 		using sampler_state_t = winrt::com_ptr<ID3D11SamplerState>;
 
-		using vertex_shader_t = winrt::com_ptr<ID3D11VertexShader>;
-		using pixel_shader_t = winrt::com_ptr<ID3D11PixelShader>;
-		using input_layout_t = winrt::com_ptr<ID3D11InputLayout>;
-
 	public:
 		enum class blend_mode
 		{
@@ -54,12 +50,6 @@ namespace planet_generator
 			AnisotropicClamp
 		};
 
-		enum class input_layout_mode
-		{
-			position,
-			//position_texcoord
-		};
-
 		using description = pipeline_description;
 
 	public:
@@ -75,10 +65,6 @@ namespace planet_generator
 		void make_rasterizer_state(direct3d::device_t device, rasterizer_mode rasterizer);
 		void make_sampler_state(direct3d::device_t device, sampler_mode sampler);
 
-		void make_input_layout(direct3d::device_t device, input_layout_mode input_layout, const std::vector<byte> &vso);
-		void make_vertex_shader(direct3d::device_t device, const std::vector<byte> &vso);
-		void make_pixel_shader(direct3d::device_t device, const std::vector<byte> &pso);
-
 	private:
 		blend_state_t blend_state;
 		depth_stencil_state_t depth_stencil_state;
@@ -86,9 +72,6 @@ namespace planet_generator
 		sampler_state_t sampler_state;
 
 		D3D11_PRIMITIVE_TOPOLOGY primitive_topology;
-		input_layout_t input_layout;
-		vertex_shader_t vertex_shader;
-		pixel_shader_t pixel_shader;
 	};
 
 	struct pipeline_description
@@ -99,9 +82,6 @@ namespace planet_generator
 		pipeline_state::sampler_mode sampler;
 
 		D3D11_PRIMITIVE_TOPOLOGY primitive_topology;
-		pipeline_state::input_layout_mode input_layout;
-		const std::vector<byte> &vertex_shader_file;
-		const std::vector<byte> &pixel_shader_file;
 	};
 }
 

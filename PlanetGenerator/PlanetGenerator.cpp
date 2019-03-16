@@ -4,6 +4,7 @@
 #include "mesh_buffer.h"
 #include "pipeline_state.h"
 #include "constant_buffer.h"
+#include "material.h"
 #include "camera.h"
 
 #include "planet.h"
@@ -173,9 +174,6 @@ bool application::resize_callback(uintptr_t wParam, uintptr_t lParam)
 void application::setup()
 {
 	{ // Pipeline State setup
-		auto vso = read_binary_file(L"position.vs.cso"),
-			pso = read_binary_file(L"green.ps.cso");
-
 		pipeline_id = gfx_renderer->add_pipeline_state(
 			pipeline_description{
 				pipeline_state::blend_mode::Opaque,
@@ -184,9 +182,19 @@ void application::setup()
 				pipeline_state::sampler_mode::AnisotropicClamp,
 
 				D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST,
-				pipeline_state::input_layout_mode::position,
+				});
+	}
+
+	{ // Material setup
+		auto vso = read_binary_file(L"position.vs.cso"),
+			pso = read_binary_file(L"green.ps.cso");
+
+		material_id = gfx_renderer->add_material(
+			material_description{
+				{ material::input_layout_mode::position },
 				vso,
-				pso });
+				pso
+			});
 	}
 
 	{ // Mesh setup
@@ -243,5 +251,6 @@ void application::update()
 	gfx_renderer->add_to_draw_queue(projection_id);
 	gfx_renderer->add_to_draw_queue(pipeline_id);
 	gfx_renderer->add_to_draw_queue(transform_id);
+	gfx_renderer->add_to_draw_queue(material_id);
 	gfx_renderer->add_to_draw_queue(mesh_id);
 }
