@@ -72,44 +72,46 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp" />
-    <ClCompile Include="constant_buffer.cpp" />
-    <ClCompile Include="direct3d.cpp" />
+    <ClCompile Include="Graphics\constant_buffer.cpp" />
+    <ClCompile Include="Graphics\direct3d.cpp" />
+    <ClCompile Include="Graphics\material.cpp" />
+    <ClCompile Include="Graphics\mesh_buffer.cpp" />
+    <ClCompile Include="Graphics\pipeline_state.cpp" />
+    <ClCompile Include="Graphics\renderer.cpp" />
+    <ClCompile Include="Graphics\render_target.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="material.cpp" />
-    <ClCompile Include="mesh_buffer.cpp" />
-    <ClCompile Include="pipeline_state.cpp" />
     <ClCompile Include="planet.cpp" />
     <ClCompile Include="PlanetGenerator.cpp" />
-    <ClCompile Include="renderer.cpp" />
-    <ClCompile Include="render_target.cpp" />
-    <ClCompile Include="window.cpp" />
+    <ClCompile Include="Window\window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h" />
-    <ClInclude Include="constant_buffer.h" />
-    <ClInclude Include="direct3d.h" />
-    <ClInclude Include="material.h" />
-    <ClInclude Include="mesh_buffer.h" />
-    <ClInclude Include="pipeline_state.h" />
+    <ClInclude Include="Graphics\constant_buffer.h" />
+    <ClInclude Include="Graphics\direct3d.h" />
+    <ClInclude Include="Graphics\material.h" />
+    <ClInclude Include="Graphics\mesh_buffer.h" />
+    <ClInclude Include="Graphics\pipeline_state.h" />
+    <ClInclude Include="Graphics\renderer.h" />
+    <ClInclude Include="Graphics\render_target.h" />
     <ClInclude Include="planet.h" />
     <ClInclude Include="PlanetGenerator.h" />
-    <ClInclude Include="renderer.h" />
-    <ClInclude Include="render_target.h" />
-    <ClInclude Include="window.h" />
+    <ClInclude Include="Window\window.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="window_implementation.inl" />
+    <None Include="Window\window_implementation.inl" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="green.ps.hlsl">
+    <FxCompile Include="Shaders\green.ps.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
-    <FxCompile Include="position.vs.hlsl">
+    <FxCompile Include="Shaders\position.vs.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -1,5 +1,5 @@
 #include "planet.h"
-#include "mesh_buffer.h"
+#include "graphics/mesh_buffer.h"
 #include <cmath>
 #include <DirectXMath.h>
 

@@ -1,10 +1,10 @@
 #include "PlanetGenerator.h"
 
-#include "window.h"
-#include "mesh_buffer.h"
-#include "pipeline_state.h"
-#include "constant_buffer.h"
-#include "material.h"
+#include "window/window.h"
+#include "graphics/mesh_buffer.h"
+#include "graphics/pipeline_state.h"
+#include "graphics/constant_buffer.h"
+#include "graphics/material.h"
 #include "camera.h"
 
 #include "planet.h"
@@ -15,30 +15,6 @@
 
 using namespace planet_generator;
 
-namespace
-{
-	mesh get_triangle_mesh(float base, float height, float delta)
-	{
-		float halfHeight = height / 2.0f;
-		float halfBase = base / 2.0f;
-
-		float x1 = -halfBase, y1 = -halfHeight,
-			x3 = base * delta, y3 = halfHeight,
-			x2 = halfBase, y2 = y1;
-
-		return {
-			// Vertex List
-			{
-				{ { x1, y1, +0.f } },
-				{ { x3, y3, +0.f } },
-				{ { x2, y2, +0.f } },
-			},
-
-			// Index List
-			{ 0, 1, 2 }
-		};
-	}
-}
 
 // TODO: Move this whole block
 namespace
@@ -95,7 +71,6 @@ application::application()
 
 	gfx_renderer = std::make_unique<renderer>(app_window->handle());
 
-	using DirectX::XMFLOAT3;
 	camera_view = std::make_unique<camera>();
 }
 
@@ -173,7 +148,7 @@ bool application::resize_callback(uintptr_t wParam, uintptr_t lParam)
 
 void application::setup()
 {
-	{ // Pipeline State setup
+	/* Pipeline State setup */ {
 		pipeline_id = gfx_renderer->add_pipeline_state(
 			pipeline_description{
 				pipeline_state::blend_mode::Opaque,
@@ -185,7 +160,7 @@ void application::setup()
 				});
 	}
 
-	{ // Material setup
+	/* Material setup */ {
 		auto vso = read_binary_file(L"position.vs.cso"),
 			pso = read_binary_file(L"green.ps.cso");
 
@@ -197,13 +172,13 @@ void application::setup()
 			});
 	}
 
-	{ // Mesh setup
+	/* Mesh setup */ {
 		auto planet = generate_sphere(1.0f, 4);
 		layer_noise(noise_type::simplex, planet);
 		mesh_id = gfx_renderer->add_mesh(planet);
 	}
 
-	{ // Mesh transform setup
+	/* Mesh transform setup */ {
 		auto angle = DirectX::XMConvertToRadians(45.0f);
 		auto tdata = DirectX::XMMatrixTranslation(0.0f, 0.0f, 0.0f);
 		tdata *= DirectX::XMMatrixRotationRollPitchYaw(angle, 0.0f, angle);
@@ -211,7 +186,7 @@ void application::setup()
 												   shader_slot::transform);
 	}
 
-	{ // Projection Matrix setup
+	/* Projection Matrix setup */ {
 		RECT rect{};
 		GetClientRect(app_window->handle(), &rect);
 		auto width = static_cast<uint16_t>(rect.right - rect.left);
@@ -221,7 +196,7 @@ void application::setup()
 													shader_slot::projection);
 	}
 
-	{ // View Matrix Setup
+	/* View Matrix Setup */ {
 		camera_view->look_at(DirectX::XMFLOAT3{ 0.0f, 0.0f, -2.0f },
 							  DirectX::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
 							  DirectX::XMFLOAT3{ 0.0f, 1.0f, 0.0f });
@@ -233,12 +208,12 @@ void application::setup()
 
 void application::update()
 {
-	{
+	/* Update the Camera location */ {
 		auto tdata = camera_view->view();
 		gfx_renderer->update_transform(view_id, transforms{ DirectX::XMMatrixTranspose(tdata) });
 	}
 
-	{
+	/* Rotate the planet mesh */ {
 		static float r = 0.0f;
 		auto angle = DirectX::XMConvertToRadians(r);
 		auto tdata = DirectX::XMMatrixRotationRollPitchYaw(0.0f, angle, 0.0f);
@@ -247,6 +222,7 @@ void application::update()
 		if (r > 360.0f) r = 0.0f;
 	}
 
+	/* Fill the Draw Queue */
 	gfx_renderer->add_to_draw_queue(view_id);
 	gfx_renderer->add_to_draw_queue(projection_id);
 	gfx_renderer->add_to_draw_queue(pipeline_id);

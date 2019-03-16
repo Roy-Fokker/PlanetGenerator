@@ -1,14 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
     <Filter Include="Resource Files">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
@@ -16,90 +8,103 @@
     <Filter Include="Shaders">
       <UniqueIdentifier>{01088bd6-ce65-4b85-9e08-34a1e303f29f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Window">
+      <UniqueIdentifier>{b347ae71-4e8f-434c-9a27-9dd9e368fa15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics">
+      <UniqueIdentifier>{a6f4abc3-1fe1-41fb-8b1a-a19405c63248}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MAIN">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Application">
+      <UniqueIdentifier>{7feea208-f649-4814-92b9-5bc105d8e14a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>MAIN</Filter>
     </ClCompile>
-    <ClCompile Include="PlanetGenerator.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Window\window.cpp">
+      <Filter>Window</Filter>
     </ClCompile>
-    <ClCompile Include="window.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Graphics\constant_buffer.cpp">
+      <Filter>Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="renderer.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Graphics\direct3d.cpp">
+      <Filter>Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="direct3d.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Graphics\material.cpp">
+      <Filter>Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="render_target.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Graphics\mesh_buffer.cpp">
+      <Filter>Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="pipeline_state.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Graphics\pipeline_state.cpp">
+      <Filter>Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="mesh_buffer.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Graphics\render_target.cpp">
+      <Filter>Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="constant_buffer.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Graphics\renderer.cpp">
+      <Filter>Graphics</Filter>
     </ClCompile>
     <ClCompile Include="camera.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Application</Filter>
     </ClCompile>
     <ClCompile Include="planet.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Application</Filter>
     </ClCompile>
-    <ClCompile Include="material.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="PlanetGenerator.cpp">
+      <Filter>Application</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="PlanetGenerator.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Window\window.h">
+      <Filter>Window</Filter>
     </ClInclude>
-    <ClInclude Include="window.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Graphics\constant_buffer.h">
+      <Filter>Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="renderer.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Graphics\direct3d.h">
+      <Filter>Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="direct3d.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Graphics\material.h">
+      <Filter>Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="render_target.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Graphics\mesh_buffer.h">
+      <Filter>Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="pipeline_state.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Graphics\pipeline_state.h">
+      <Filter>Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="mesh_buffer.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Graphics\render_target.h">
+      <Filter>Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="constant_buffer.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Graphics\renderer.h">
+      <Filter>Graphics</Filter>
     </ClInclude>
     <ClInclude Include="camera.h">
-      <Filter>Header Files</Filter>
+      <Filter>Application</Filter>
     </ClInclude>
     <ClInclude Include="planet.h">
-      <Filter>Header Files</Filter>
+      <Filter>Application</Filter>
     </ClInclude>
-    <ClInclude Include="material.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="PlanetGenerator.h">
+      <Filter>Application</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="window_implementation.inl">
-      <Filter>Header Files</Filter>
+    <None Include="Window\window_implementation.inl">
+      <Filter>Window</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="green.ps.hlsl">
+    <FxCompile Include="Shaders\green.ps.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="position.vs.hlsl">
+    <FxCompile Include="Shaders\position.vs.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
   </ItemGroup>
