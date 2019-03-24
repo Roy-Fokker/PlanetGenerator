@@ -23,16 +23,16 @@ pipeline_state::~pipeline_state() = default;
 void pipeline_state::activate(direct3d::context_t context)
 {
 	context->OMSetBlendState(blend_state.get(),
-							 DirectX::Colors::Transparent,
-							 0xffff'ffff);
+	                         DirectX::Colors::Transparent,
+	                         0xffff'ffff);
 	context->OMSetDepthStencilState(depth_stencil_state.get(),
-									NULL);
+	                                NULL);
 	context->RSSetState(rasterizer_state.get());
 
 	ID3D11SamplerState * const samplers[] = { sampler_state.get() };
 	context->PSSetSamplers(0,
-						   1,
-						   samplers);
+	                       1,
+	                       samplers);
 
 
 	context->IASetPrimitiveTopology(primitive_topology);

@@ -24,8 +24,8 @@ namespace
 camera::camera()
 {
 	look_at(XMFLOAT3{ 0.0f, 0.0f, -1.0f },   // From
-			XMFLOAT3{ 0.0f, 0.0f, 0.0f },    // At
-			XMFLOAT3{ 0.0f, 1.0f, 0.0f });   // Up
+	        XMFLOAT3{ 0.0f, 0.0f, 0.0f },    // At
+	        XMFLOAT3{ 0.0f, 1.0f, 0.0f });   // Up
 }
 
 camera::camera(const XMFLOAT3 &pos, const XMFLOAT3 &tgt, const XMFLOAT3 &up)

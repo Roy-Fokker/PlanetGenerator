@@ -12,17 +12,17 @@ window::window(std::wstring_view window_title, const size & window_size, const s
 		default_window_style_ex = WS_EX_OVERLAPPEDWINDOW;
 
 	RECT window_rectangle{ 0,
-						   0,
-						   window_size.width,
-						   window_size.height };
+	                       0,
+	                       window_size.width,
+	                       window_size.height };
 
 	AdjustWindowRectEx(&window_rectangle, default_window_style, NULL, default_window_style_ex);
 
 	window_impl->Create(nullptr,
-						window_rectangle,
-						window_title.data(),
-						default_window_style,
-						default_window_style_ex);
+	                    window_rectangle,
+	                    window_title.data(),
+	                    default_window_style,
+	                    default_window_style_ex);
 
 	change_style(window_style);
 
@@ -108,8 +108,8 @@ void window::change_style(style window_style)
 		GetMonitorInfo(MonitorFromWindow(window_impl->m_hWnd, MONITOR_DEFAULTTONEAREST), &monitor_info);
 
 		window_impl->SetWindowPos(HWND_TOP,
-								  &monitor_info.rcMonitor,
-								  SWP_NOOWNERZORDER | SWP_FRAMECHANGED);
+		                          &monitor_info.rcMonitor,
+		                          SWP_NOOWNERZORDER | SWP_FRAMECHANGED);
 	}
 }
 

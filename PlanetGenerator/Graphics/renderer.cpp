@@ -20,7 +20,7 @@ renderer::renderer(HWND hWnd)
 	auto device = d3d->get<direct3d::device_t>();
 
 	draw_target = std::make_unique<render_target>(device,
-												  d3d->get<direct3d::swap_chain_t>());
+	                                              d3d->get<direct3d::swap_chain_t>());
 	draw_target->activate(d3d->get<direct3d::context_t>());
 }
 
@@ -29,7 +29,7 @@ renderer::~renderer() = default;
 renderer::handle renderer::add_mesh(const mesh & mesh_data)
 {
 	meshes.push_back(std::make_unique<mesh_buffer>(d3d->get<direct3d::device_t>(), 
-												   mesh_data));
+	                                               mesh_data));
 
 	return { object_type::mesh, static_cast<uint32_t>(meshes.size()) };
 }
@@ -37,7 +37,7 @@ renderer::handle renderer::add_mesh(const mesh & mesh_data)
 renderer::handle renderer::add_material(const material_description & description)
 {
 	material_list.push_back(std::make_unique<material>(d3d->get<direct3d::device_t>(),
-													   description));
+	                                                   description));
 
 	return { object_type::material, static_cast<uint32_t>(material_list.size()) };
 }
@@ -45,7 +45,7 @@ renderer::handle renderer::add_material(const material_description & description
 renderer::handle renderer::add_pipeline_state(const pipeline_description &description)
 {
 	pipeline_states.push_back(std::make_unique<pipeline_state>(d3d->get<direct3d::device_t>(),
-															   description));
+	                                                           description));
 
 	return { object_type::pipeline, static_cast<uint32_t>(pipeline_states.size()) };;
 }
@@ -53,8 +53,8 @@ renderer::handle renderer::add_pipeline_state(const pipeline_description &descri
 renderer::handle renderer::add_transform(const transforms &transform, shader_slot slot)
 {
 	constant_buffers.push_back(std::make_unique<constant_buffer>(d3d->get<direct3d::device_t>(),
-																transform,
-																slot));
+	                                                             transform,
+	                                                             slot));
 
 	return { object_type::transform, static_cast<uint32_t>(constant_buffers.size()) };
 }
@@ -96,7 +96,7 @@ void renderer::resize_frame()
 	d3d->resize();
 
 	draw_target = std::make_unique<render_target>(d3d->get<direct3d::device_t>(),
-												  d3d->get<direct3d::swap_chain_t>());
+	                                              d3d->get<direct3d::swap_chain_t>());
 	draw_target->activate(d3d->get<direct3d::context_t>());
 }
 

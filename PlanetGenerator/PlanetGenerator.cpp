@@ -41,8 +41,8 @@ namespace
 		inFile.seekg(0, std::ios::beg);
 
 		std::copy(std::istream_iterator<byte>(inFile),
-				  std::istream_iterator<byte>(),
-				  std::back_inserter(buffer));
+		          std::istream_iterator<byte>(),
+		          std::back_inserter(buffer));
 
 		return buffer;
 	}
@@ -58,13 +58,13 @@ application::application()
 										  window::size{ width, height });
 
 	app_window->on_message(window::message_name::keypress,
-						   [&](uintptr_t key_code, uintptr_t extension) -> bool
+	                       [&](uintptr_t key_code, uintptr_t extension) -> bool
 	{
 		return keypress_callback(key_code, extension);
 	});
 
 	app_window->on_message(window::message_name::resize,
-						   [&](uintptr_t wParam, uintptr_t lParam) -> bool
+	                       [&](uintptr_t wParam, uintptr_t lParam) -> bool
 	{
 		return resize_callback(wParam, lParam);
 	});
@@ -162,7 +162,7 @@ void application::setup()
 
 	/* Material setup */ {
 		auto vso = read_binary_file(L"position.vs.cso"),
-			pso = read_binary_file(L"green.ps.cso");
+		     pso = read_binary_file(L"green.ps.cso");
 
 		material_id = gfx_renderer->add_material(
 			material_description{
@@ -173,7 +173,7 @@ void application::setup()
 	}
 
 	/* Mesh setup */ {
-		auto planet = generate_sphere(1.0f, 4);
+		auto planet = generate_sphere(1.0f, 6);
 		layer_noise(noise_type::simplex, planet);
 		mesh_id = gfx_renderer->add_mesh(planet);
 	}
@@ -183,7 +183,7 @@ void application::setup()
 		auto tdata = DirectX::XMMatrixTranslation(0.0f, 0.0f, 0.0f);
 		tdata *= DirectX::XMMatrixRotationRollPitchYaw(angle, 0.0f, angle);
 		transform_id = gfx_renderer->add_transform(transforms{ DirectX::XMMatrixTranspose(tdata) },
-												   shader_slot::transform);
+		                                           shader_slot::transform);
 	}
 
 	/* Projection Matrix setup */ {
@@ -193,16 +193,16 @@ void application::setup()
 		auto height = static_cast<uint16_t>(rect.bottom - rect.top);
 		auto tdata = projection(width, height, 60.0f, 0.1f, 1000.0f);
 		projection_id = gfx_renderer->add_transform(transforms{ DirectX::XMMatrixTranspose(tdata) },
-													shader_slot::projection);
+		                                            shader_slot::projection);
 	}
 
 	/* View Matrix Setup */ {
 		camera_view->look_at(DirectX::XMFLOAT3{ 0.0f, 0.0f, -2.0f },
-							  DirectX::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
-							  DirectX::XMFLOAT3{ 0.0f, 1.0f, 0.0f });
+		                     DirectX::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
+		                     DirectX::XMFLOAT3{ 0.0f, 1.0f, 0.0f });
 		auto tdata = camera_view->view();
 		view_id = gfx_renderer->add_transform(transforms{ DirectX::XMMatrixTranspose(tdata) },
-											  shader_slot::view);
+		                                      shader_slot::view);
 	}
 }
 

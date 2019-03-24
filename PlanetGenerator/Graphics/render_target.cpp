@@ -49,13 +49,13 @@ void render_target::make_target_view(direct3d::device_t device, direct3d::swap_c
 {
 	texture_2d_t buffer = nullptr;
 	auto hr = swap_chain->GetBuffer(0,
-									__uuidof(ID3D11Texture2D),
-									buffer.put_void());
+	                                __uuidof(ID3D11Texture2D),
+	                                buffer.put_void());
 	assert(hr == S_OK);
 
 	hr = device->CreateRenderTargetView(buffer.get(),
-										0,
-										target_view.put());
+	                                    0,
+	                                    target_view.put());
 	assert(hr == S_OK);
 }
 
@@ -74,12 +74,12 @@ void render_target::make_stencil_view(direct3d::device_t device, const std::arra
 	td.SampleDesc = direct3d::get_msaa_level(device);
 
 	auto hr = device->CreateTexture2D(&td,
-									  0,
-									  depth_buffer.put());
+	                                  0,
+	                                  depth_buffer.put());
 	assert(hr == S_OK);
 
 	hr = device->CreateDepthStencilView(depth_buffer.get(),
-										0,
-										stencil_view.put());
+	                                    0,
+	                                    stencil_view.put());
 	assert(hr == S_OK);
 }

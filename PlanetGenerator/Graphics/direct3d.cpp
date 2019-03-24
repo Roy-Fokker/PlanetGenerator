@@ -55,17 +55,17 @@ namespace
 
 			uint32_t display_modes_count{ 0 };
 			hr = adapter_output->GetDisplayModeList(swap_chain_format,
-													DXGI_ENUM_MODES_INTERLACED,
-													&display_modes_count,
-													nullptr);
+			                                        DXGI_ENUM_MODES_INTERLACED,
+			                                        &display_modes_count,
+			                                        nullptr);
 			assert(hr == S_OK);
 
 
 			std::vector<DXGI_MODE_DESC> display_modes(display_modes_count);
 			hr = adapter_output->GetDisplayModeList(swap_chain_format,
-													DXGI_ENUM_MODES_INTERLACED,
-													&display_modes_count,
-													&display_modes[0]);
+			                                        DXGI_ENUM_MODES_INTERLACED,
+			                                        &display_modes_count,
+			                                        &display_modes[0]);
 			assert(hr == S_OK);
 
 			auto[width, height] = get_window_size(window_handle);
@@ -138,15 +138,15 @@ void direct3d::make_device()
 	};
 
 	auto hr = D3D11CreateDevice(nullptr,
-								D3D_DRIVER_TYPE_HARDWARE,
-								nullptr,
-								flags,
-								feature_levels.data(),
-								static_cast<uint32_t>(feature_levels.size()),
-								D3D11_SDK_VERSION,
-								device.put(),
-								nullptr,
-								context.put());
+	                            D3D_DRIVER_TYPE_HARDWARE,
+	                            nullptr,
+	                            flags,
+	                            feature_levels.data(),
+	                            static_cast<uint32_t>(feature_levels.size()),
+	                            D3D11_SDK_VERSION,
+	                            device.put(),
+	                            nullptr,
+	                            context.put());
 	assert(hr == S_OK);
 }
 
@@ -186,4 +186,3 @@ void direct3d::make_swap_chain()
 
 	dxgi_factory->MakeWindowAssociation(window_handle, DXGI_MWA_NO_ALT_ENTER | DXGI_MWA_NO_WINDOW_CHANGES);
 }
-

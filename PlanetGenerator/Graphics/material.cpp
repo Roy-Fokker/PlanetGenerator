@@ -51,27 +51,27 @@ void material::make_input_layout(direct3d::device_t device, const std::vector<ma
 	}
 
 	auto hr = device->CreateInputLayout(elements.data(),
-										static_cast<uint32_t>(elements.size()),
-										vso.data(),
-										static_cast<uint32_t>(vso.size()),
-										input_layout.put());
+	                                    static_cast<uint32_t>(elements.size()),
+	                                    vso.data(),
+	                                    static_cast<uint32_t>(vso.size()),
+	                                    input_layout.put());
 	assert(hr == S_OK);
 }
 
 void material::make_vertex_shader(direct3d::device_t device, const std::vector<byte>& vso)
 {
 	auto hr = device->CreateVertexShader(vso.data(),
-										 vso.size(),
-										 NULL,
-										 vertex_shader.put());
+	                                     vso.size(),
+	                                     NULL,
+	                                     vertex_shader.put());
 	assert(hr == S_OK);
 }
 
 void material::make_pixel_shader(direct3d::device_t device, const std::vector<byte>& pso)
 {
 	auto hr = device->CreatePixelShader(pso.data(),
-										pso.size(),
-										NULL,
-										pixel_shader.put());
+	                                    pso.size(),
+	                                    NULL,
+	                                    pixel_shader.put());
 	assert(hr == S_OK);
 }
