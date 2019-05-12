@@ -1,6 +1,7 @@
 #include "PlanetGenerator.h"
 
 #include "window/window.h"
+#include "input.h"
 #include "graphics/mesh_buffer.h"
 #include "graphics/pipeline_state.h"
 #include "graphics/constant_buffer.h"
@@ -57,17 +58,15 @@ application::application()
 	app_window = std::make_unique<window>(L"Planet Generator",
 										  window::size{ width, height });
 
-	app_window->on_message(window::message_name::keypress,
-	                       [&](uintptr_t key_code, uintptr_t extension) -> bool
-	{
-		return keypress_callback(key_code, extension);
-	});
-
 	app_window->on_message(window::message_name::resize,
 	                       [&](uintptr_t wParam, uintptr_t lParam) -> bool
 	{
 		return resize_callback(wParam, lParam);
 	});
+
+
+	app_input = std::make_unique<input>(app_window->handle(),
+										std::vector{ input::input_device_type::keyboard, input::input_device_type::mouse });
 
 	gfx_renderer = std::make_unique<renderer>(app_window->handle());
 
@@ -87,57 +86,59 @@ int application::run()
 		update();
 		gfx_renderer->draw_frame();
 
+		app_input->process_messages();
 		app_window->process_messages();
 	}
 
 	return 0;
 }
 
-bool application::keypress_callback(uintptr_t key_code, uintptr_t extension)
+void application::update_input()
 {
-	switch (key_code)
+	// TODO: Input Context
+	using key = input::key_code;
+
+	if (app_input->test_keypress(key::Escape))
 	{
-	case VK_ESCAPE:
 		exit_application = true;
-		break;
-	case 'W':
-		camera_view->translate(0.05f, 0.f, 0.f);
-		break;
-	case 'S':
-		camera_view->translate(-0.05f, 0.f, 0.f);
-		break;
-	case 'A':
-		camera_view->translate(0.f, 0.05f, 0.f);
-		break;
-	case 'D':
-		camera_view->translate(0.f, -0.05f, 0.f);
-		break;
-	case 'Q':
-		camera_view->translate(0.f, 0.f, 0.05f);
-		break;
-	case 'E':
-		camera_view->translate(0.f, 0.f, -0.05f);
-		break;
-	case 'J':
-		camera_view->rotate(0.05f, 0.f, 0.f);
-		break;
-	case 'L':
-		camera_view->rotate(-0.05f, 0.f, 0.f);
-		break;
-	case 'I':
-		camera_view->rotate(0.f, 0.05f, 0.f);
-		break;
-	case 'K':
-		camera_view->rotate(0.f, -0.05f, 0.f);
-		break;
-	case 'U':
-		camera_view->rotate(0.f, 0.f, 0.05f);
-		break;
-	case 'O':
-		camera_view->rotate(0.f, 0.f, -0.05f);
-		break;
 	}
-	return true;
+
+	float move_by = 0.005f;
+
+	if (app_input->test_keypress(key::W))
+		camera_view->translate(move_by, 0.f, 0.f);
+	else if (app_input->test_keypress(key::S))
+		camera_view->translate(-move_by, 0.f, 0.f);
+	
+	if (app_input->test_keypress(key::A))
+		camera_view->translate(0.f, move_by, 0.f);
+	else if(app_input->test_keypress(key::D))
+		camera_view->translate(0.f, -move_by, 0.f);
+	
+	if (app_input->test_keypress(key::Q))
+		camera_view->translate(0.f, 0.f, move_by);
+	else if (app_input->test_keypress(key::E))
+		camera_view->translate(0.f, 0.f, -move_by);
+
+
+	if (app_input->test_keypress(key::J))
+		camera_view->rotate(move_by, 0.f, 0.f);
+	else if (app_input->test_keypress(key::L))
+		camera_view->rotate(-move_by, 0.f, 0.f);
+		
+	if (app_input->test_keypress(key::I))
+		camera_view->rotate(0.f, move_by, 0.f);
+	else if (app_input->test_keypress(key::K))
+		camera_view->rotate(0.f, -move_by, 0.f);
+		
+	if (app_input->test_keypress(key::U))
+		camera_view->rotate(0.f, 0.f, move_by);
+	else if (app_input->test_keypress(key::O))
+		camera_view->rotate(0.f, 0.f, -move_by);
+	
+
+
+	
 }
 
 bool application::resize_callback(uintptr_t wParam, uintptr_t lParam)
@@ -179,7 +180,7 @@ void application::setup()
 	}
 
 	/* Mesh transform setup */ {
-		auto angle = DirectX::XMConvertToRadians(45.0f);
+		constexpr auto angle = DirectX::XMConvertToRadians(45.0f);
 		auto tdata = DirectX::XMMatrixTranslation(0.0f, 0.0f, 0.0f);
 		tdata *= DirectX::XMMatrixRotationRollPitchYaw(angle, 0.0f, angle);
 		transform_id = gfx_renderer->add_transform(transforms{ DirectX::XMMatrixTranspose(tdata) },
@@ -208,6 +209,9 @@ void application::setup()
 
 void application::update()
 {
+	/* Update Input */
+	update_input();
+
 	/* Update the Camera location */ {
 		auto tdata = camera_view->view();
 		gfx_renderer->update_transform(view_id, transforms{ DirectX::XMMatrixTranspose(tdata) });

@@ -1,17 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.421
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.352
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PlanetGenerator", "PlanetGenerator\PlanetGenerator.vcxproj", "{A42EC919-28C8-476C-A052-D7A9A733135D}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FastNoise", "..\.packages\FastNoise\FastNoise.vcxitems", "{6DE2F923-BB77-4C61-A7E9-AB7C63E07D79}"
-EndProject
 Global
-	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		..\.packages\FastNoise\FastNoise.vcxitems*{6de2f923-bb77-4c61-a7e9-ab7c63e07d79}*SharedItemsImports = 9
-		..\.packages\FastNoise\FastNoise.vcxitems*{a42ec919-28c8-476c-a052-d7a9a733135d}*SharedItemsImports = 4
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
 		Release|x64 = Release|x64

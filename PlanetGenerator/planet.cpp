@@ -3,7 +3,7 @@
 #include <cmath>
 #include <DirectXMath.h>
 
-#include <FastNoise\FastNoise.h>
+#include <FastNoise.cpp> // Need better way
 
 using namespace DirectX;
 using namespace planet_generator;

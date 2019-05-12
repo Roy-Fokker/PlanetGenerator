@@ -24,7 +24,7 @@ namespace planet_generator
 		const DirectX::XMMATRIX view() const;
 
 	private:
-		DirectX::XMVECTOR position;
-		DirectX::XMVECTOR orientation;
+		DirectX::XMVECTOR position{};
+		DirectX::XMVECTOR orientation{};
 	};
 }

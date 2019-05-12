@@ -7,6 +7,7 @@
 namespace planet_generator
 {
 	class window;
+	class input;
 	class renderer;
 	class camera;
 
@@ -19,7 +20,7 @@ namespace planet_generator
 		int run();
 
 	private:
-		bool keypress_callback(uintptr_t key_code, uintptr_t extension);
+		void update_input();
 		bool resize_callback(uintptr_t wParam, uintptr_t lParam);
 
 		void setup();
@@ -28,6 +29,7 @@ namespace planet_generator
 	private:
 		bool exit_application = false;
 		std::unique_ptr<window> app_window = nullptr;
+		std::unique_ptr<input> app_input = nullptr;
 		std::unique_ptr<renderer> gfx_renderer = nullptr;
 		std::unique_ptr<camera> camera_view = nullptr;
 

@@ -59,6 +59,9 @@
     <ClCompile Include="PlanetGenerator.cpp">
       <Filter>Application</Filter>
     </ClCompile>
+    <ClCompile Include="input.cpp">
+      <Filter>Application</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window\window.h">
@@ -92,6 +95,9 @@
       <Filter>Application</Filter>
     </ClInclude>
     <ClInclude Include="PlanetGenerator.h">
+      <Filter>Application</Filter>
+    </ClInclude>
+    <ClInclude Include="input.h">
       <Filter>Application</Filter>
     </ClInclude>
   </ItemGroup>

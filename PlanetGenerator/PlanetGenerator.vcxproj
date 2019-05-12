@@ -14,37 +14,37 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{a42ec919-28c8-476c-a052-d7a9a733135d}</ProjectGuid>
     <RootNamespace>PlanetGenerator</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
-  <ImportGroup Label="Shared">
-    <Import Project="..\..\.packages\FastNoise\FastNoise.vcxitems" Label="Shared" />
-  </ImportGroup>
+  <ImportGroup Label="Shared" />
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="..\..\.props files\windows.MainCRTStartup.props" />
     <Import Project="..\..\.props files\cppstd.17.props" />
+    <Import Project="FastNoise.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="..\..\.props files\windows.MainCRTStartup.props" />
     <Import Project="..\..\.props files\cppstd.17.props" />
+    <Import Project="FastNoise.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup />
@@ -79,6 +79,7 @@
     <ClCompile Include="Graphics\pipeline_state.cpp" />
     <ClCompile Include="Graphics\renderer.cpp" />
     <ClCompile Include="Graphics\render_target.cpp" />
+    <ClCompile Include="input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="planet.cpp" />
     <ClCompile Include="PlanetGenerator.cpp" />
@@ -93,6 +94,7 @@
     <ClInclude Include="Graphics\pipeline_state.h" />
     <ClInclude Include="Graphics\renderer.h" />
     <ClInclude Include="Graphics\render_target.h" />
+    <ClInclude Include="input.h" />
     <ClInclude Include="planet.h" />
     <ClInclude Include="PlanetGenerator.h" />
     <ClInclude Include="Window\window.h" />
